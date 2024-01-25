@@ -9,14 +9,14 @@ Lastly before beginning, in the control machine's /etc/ansible/ansible.cfg I tur
 Starting simple, I set up an inventory with just web01 and ran an ad hoc command: 'ansible web01 -m ping -i inventory' and got my first successful 'pong' back!
 
 ## Exercise 2
-Then, I added web02 and db01 to the inventory as well as add groups. I made a group for webservers(web01+web02, dbservers(db01), as well as dc_virginia(group of groups- webservers+dbservers). I then tested pinging various connections.
+Then, I added web02 and db01 to the inventory as well as add groups. I made a group for webservers(web01+web02), dbservers(db01), as well as dc_virginia(group of groups- webservers+dbservers). I then tested pinging various connections.
 
 ## Exercise 3
-I began my introduction to variables with group variables, adding 'ansible_user' and 'ansible_ssh_private_key_file' for dc_virginia, which significantly reduced a lot of lines of the file as I don't have to define them for every single host.
+I began my introduction to variables with group variables, adding 'ansible_user' and 'ansible_ssh_private_key_file' for dc_virginia, which significantly reduced a lot of lines in the file as I don't have to repeat code the same code for each of the hosts.
 
 ## Exercise 4
 I explored with more ad hoc commands and getting use to Ansible's idempotent nature and how it maintains state- so cool!! 
-In specific, I ran 'ansible webservers -m ansible.builtin.copy -a "src=index.html dest=/var/www/html/index.html" -i inventory --become' to copy a file from control machine to the webservers, and viewed the changes in the file via webservers IP addresses.
+In specific, I ran 'ansible webservers -m ansible.builtin.copy -a "src=index.html dest=/var/www/html/index.html" -i inventory --become' to copy a file from control machine to the webservers, and viewed the changes in the file via the webservers IP addresses.
 
 ## Exercise 5
 Diving into playbooks, I gave 2 plays with 2 tasks each, utilizing modules 'ansible.builtin.yum' to install httpd & mariadb as well as 'ansible.builtin.service' to start each service. I ran it with 'ansible-playbook -i inventory web-db.yaml', still specifying inventory as I still hadn't yet set up a local ansible.cfg file to mention the inventory path.
@@ -39,7 +39,7 @@ Focusing on fact variables, I practiced printing certain facts, turning it off, 
 In addition, I didnt forget about web03! I finally added it into inventory, overriding the 'ansible_user' global variable with host variable since it is Ubuntu and has a different default user.
 
 ## Exercise 11
-Moving onto server provisioning, I used NTP just an example. In this exercise, I . I used 'when' to set a condition on the tasks for the fact variable 'ansible_distribution', so it runs dependent on whether it is Ubuntu and CentOS.
+Moving onto server provisioning, I used NTP just an example. I used 'when' to set a condition on the tasks for the fact variable 'ansible_distribution', so it runs dependent on whether it is Ubuntu or CentOS.
 
 ## Exercise 12
 Before moving on with server provisioning, I practiced loops- installing multiple packages with one task.
