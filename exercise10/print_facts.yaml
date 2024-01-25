@@ -1,0 +1,16 @@
+---
+- name: Print facts
+  hosts: all
+  #gather_facts: False
+  tasks:
+    - name: Print OS name
+      debug:
+        var: ansible_distribution
+    - name: Print RAM (nested dictionary)
+      debug:
+        var: ansible_memory_mb.real.free
+    - name: Print ansible processor name (list as dictionary value)
+      debug:
+        var: ansible_processor[2]
+
+

@@ -1,0 +1,16 @@
+---
+- name: Variables from group_vars
+  hosts: all
+  become: yes
+  tasks:
+    - name: create user
+      ansible.builtin.user:
+        name: "{{user}}"
+        comment: "{{comm}}"
+      register: usrout
+
+    - debug:
+        var: usrout.name
+
+    - debug:
+        var: usrout.comment

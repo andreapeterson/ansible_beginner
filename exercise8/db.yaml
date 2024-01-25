@@ -1,0 +1,44 @@
+---
+- name: DBserver Set-up
+  hosts: dbservers
+  become: yes
+  vars:
+    dbuser: milo
+    dbpass: milo123
+  tasks:
+    - debug:
+        msg: "The dbuser is {{dbuser}}"
+    - name: Install mariadb-server
+      ansible.builtin.yum:
+        name: mariadb-server
+        state: present
+
+    - name: Install dependencies for mysql db- pymysql
+      ansible.builtin.yum:
+        name: python3-PyMySQL
+        state: present
+
+    - name: Start mariadb service
+      ansible.builtin.service:
+        name: mariadb
+        state: started
+        enabled: yes
+
+    - name: Create a new database with name 'accounts'
+      community.mysql.mysql_db:
+        name: accounts
+        state: present
+        login_unix_socket: /var/lib/mysql/mysql.sock
+
+    - name: Create database user with all database privileges
+      community.mysql.mysql_user:
+        name: "{{dbuser}}"
+        password: "{{dbpass}}"
+        priv: '*.*:ALL'
+        state: present
+        login_unix_socket: /var/lib/mysql/mysql.sock
+      register: dbout
+
+    - name: print dbout
+      debug:
+        var: dbout

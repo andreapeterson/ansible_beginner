@@ -1,0 +1,32 @@
+---
+# tasks file for post-install
+- name: Banner file
+  copy:
+    content: '# This server is managed by ansible. No manual changes please.'
+    dest: /etc/motd
+
+- name: Deploy ntp agent conf on centos
+  template:
+    src: ntpconf_centos
+    dest: /etc/chrony.conf
+    backup: yes
+  when: ansible_distribution == "CentOS"
+  notify: Restart service on centos
+
+- name: Deploy ntp agent conf on ubuntu
+  template:
+    src: ntpconf_ubuntu
+    dest: /etc/ntp.conf
+    backup: yes
+  when: ansible_distribution == "Ubuntu"
+  notify: Restart service on ubuntu
+
+- name: Dump file
+  copy:
+    src: myfile.txt
+    dest: /tmp/myfile.txt
+
+- name: Create a folder
+  file:
+    path: "{{mydir}}"
+    state: directory

@@ -1,0 +1,2 @@
+user: web02user
+comm: variable from host_vars/web02

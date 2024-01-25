@@ -1,0 +1,8 @@
+---
+# vars file for post-install
+ntp0: 0.us.pool.ntp.org
+ntp1: 1.us.pool.ntp.org
+ntp2: 2.us.pool.ntp.org
+ntp3: 3.us.pool.ntp.org
+
+mydir: /opt/dir22

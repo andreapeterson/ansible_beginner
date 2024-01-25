@@ -1,0 +1,2 @@
+user: webservers
+comm: variable from group_vars/webservers
